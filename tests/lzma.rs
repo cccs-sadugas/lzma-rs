@@ -194,6 +194,16 @@ fn decompress_range_coder_edge_case() {
     assert_decomp_eq(&compressed, &expected, /* compare_to_liblzma */ true);
 }
 
+/// Regression test for the partial eof streaming bugfix
+#[test]
+fn decompress_partial_eof_regression() {
+    #[cfg(feature = "enable_logging")]
+    let _ = env_logger::try_init();
+    let compressed = read_all_file("tests/files/partial-eof-regression.lzma").unwrap();
+    let expected = read_all_file("tests/files/partial-eof-regression").unwrap();
+    assert_decomp_eq(&compressed, &expected, /* compare_to_liblzma */ true);
+}
+
 #[test]
 fn decompress_empty_world() {
     #[cfg(feature = "enable_logging")]
